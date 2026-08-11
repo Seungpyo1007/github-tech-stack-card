@@ -1,0 +1,177 @@
+---
+import '../styles/global.css';
+
+const title = 'GitHub Tech Stack Card — Build your own stack card';
+const description = 'Choose your technologies, tune every detail, and copy a dynamic SVG card for your GitHub README.';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="theme-color" content="#0f1b2a" />
+    <meta name="description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content="https://github-tech-stack-card.vercel.app/" />
+    <meta property="og:image" content="https://github-tech-stack-card.vercel.app/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="https://github-tech-stack-card.vercel.app/og.png" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <div class="ambient ambient-one" aria-hidden="true"></div>
+    <div class="ambient ambient-two" aria-hidden="true"></div>
+
+    <header class="site-header shell">
+      <a class="brand" href="/" aria-label="GitHub Tech Stack Card home">
+        <span class="brand-mark" aria-hidden="true">TS</span>
+        <span>Stack Card</span>
+      </a>
+      <nav class="header-actions" aria-label="Site actions">
+        <div class="language-switch" role="group" aria-label="Language">
+          <button type="button" data-language="en" aria-pressed="true">EN</button>
+          <button type="button" data-language="ko" aria-pressed="false">KO</button>
+        </div>
+        <a class="github-link" href="https://github.com/Seungpyo1007/github-tech-stack-card" target="_blank" rel="noreferrer">
+          <span data-i18n="viewGithub">View on GitHub</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+      </nav>
+    </header>
+
+    <main class="shell">
+      <section class="hero" aria-labelledby="page-title">
+        <p class="eyebrow" data-i18n="eyebrow">DYNAMIC SVG BUILDER</p>
+        <h1 id="page-title">
+          <span data-i18n="heroStart">Build a stack card that feels</span>
+          <span class="gradient-text" data-i18n="heroAccent">uniquely yours.</span>
+        </h1>
+        <p class="hero-copy" data-i18n="heroCopy">Pick your technologies, tune every detail, and paste the result straight into your GitHub README.</p>
+      </section>
+
+      <div class="workspace">
+        <section class="editor panel" aria-labelledby="editor-title">
+          <div class="panel-heading">
+            <div>
+              <p class="step-label" data-i18n="customize">CUSTOMIZE</p>
+              <h2 id="editor-title" data-i18n="editorTitle">Make it yours</h2>
+            </div>
+            <button class="button button-quiet" id="reset-button" type="button" data-i18n="reset">Reset all</button>
+          </div>
+
+          <form id="customizer-form">
+            <fieldset class="control-section">
+              <legend data-i18n="identity">Identity</legend>
+              <div class="field-grid two-columns">
+                <label class="field">
+                  <span data-i18n="username">GitHub username</span>
+                  <input id="username" name="username" type="text" maxlength="39" pattern="[A-Za-z0-9-]+" autocomplete="username" />
+                </label>
+                <label class="field">
+                  <span class="label-row"><span data-i18n="cardTitle">Card title</span><small id="title-count">0/48</small></span>
+                  <input id="card-title" name="title" type="text" maxlength="48" />
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset class="control-section">
+              <legend data-i18n="appearance">Appearance</legend>
+              <span class="control-label" data-i18n="theme">Theme</span>
+              <div class="choice-grid themes" role="group" aria-label="Theme">
+                <button class="theme-choice" type="button" data-theme="shiny">
+                  <span class="theme-swatch shiny-swatch" aria-hidden="true"></span>
+                  <span>Shiny</span>
+                </button>
+                <button class="theme-choice" type="button" data-theme="github_dark">
+                  <span class="theme-swatch github-swatch" aria-hidden="true"></span>
+                  <span>GitHub Dark</span>
+                </button>
+                <button class="theme-choice" type="button" data-theme="light">
+                  <span class="theme-swatch light-swatch" aria-hidden="true"></span>
+                  <span>Light</span>
+                </button>
+              </div>
+
+              <span class="control-label spaced-label" data-i18n="layout">Layout</span>
+              <div class="segmented" role="group" aria-label="Layout">
+                <button type="button" data-layout="rows" data-i18n="rows">Rows</button>
+                <button type="button" data-layout="grid" data-i18n="grid">Grid</button>
+                <button type="button" data-layout="compact" data-i18n="compact">Compact</button>
+              </div>
+
+              <div class="color-grid">
+                <label class="color-field"><span data-i18n="background">Background</span><span><input type="color" data-color="background" /><input type="text" data-color-text="background" maxlength="7" /></span></label>
+                <label class="color-field"><span data-i18n="border">Border</span><span><input type="color" data-color="border" /><input type="text" data-color-text="border" maxlength="7" /></span></label>
+                <label class="color-field"><span data-i18n="accent">Accent</span><span><input type="color" data-color="accent" /><input type="text" data-color-text="accent" maxlength="7" /></span></label>
+                <label class="color-field"><span data-i18n="text">Text</span><span><input type="color" data-color="text" /><input type="text" data-color-text="text" maxlength="7" /></span></label>
+                <label class="color-field"><span data-i18n="tile">Icon tile</span><span><input type="color" data-color="tile" /><input type="text" data-color-text="tile" maxlength="7" /></span></label>
+              </div>
+
+              <label class="range-field">
+                <span><span data-i18n="iconSize">Icon size</span><output id="icon-size-output">34px</output></span>
+                <input id="icon-size" type="range" min="24" max="48" step="1" value="34" />
+              </label>
+
+              <div class="toggle-grid">
+                <label class="toggle"><span><strong data-i18n="showTitle">Show title</strong><small data-i18n="showTitleHelp">Display the title above your stack</small></span><input id="show-title" type="checkbox" /><span class="toggle-track" aria-hidden="true"></span></label>
+                <label class="toggle"><span><strong data-i18n="animation">Animation</strong><small data-i18n="animationHelp">Float icons and shimmer the border</small></span><input id="animation" type="checkbox" /><span class="toggle-track" aria-hidden="true"></span></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="control-section stack-section">
+              <legend data-i18n="technologies">Technologies</legend>
+              <p class="section-help" data-i18n="dragHelp">Choose logos and drag selected items to reorder them. Use the arrow buttons for keyboard control.</p>
+              <div id="stack-groups" class="stack-groups"></div>
+            </fieldset>
+          </form>
+        </section>
+
+        <aside class="preview-column" aria-labelledby="preview-title">
+          <section class="preview-panel panel">
+            <div class="panel-heading preview-heading">
+              <div>
+                <p class="step-label" data-i18n="livePreview">LIVE PREVIEW</p>
+                <h2 id="preview-title" data-i18n="previewTitle">Your card</h2>
+              </div>
+              <button class="button button-quiet" id="replay-button" type="button"><span aria-hidden="true">↻</span> <span data-i18n="replay">Replay</span></button>
+            </div>
+            <div class="preview-stage" id="preview-stage" aria-live="polite">
+              <div class="preview-loading" id="preview-loading" data-i18n="rendering">Rendering your card…</div>
+              <img id="card-preview" alt="Live preview of your GitHub tech stack card" />
+            </div>
+            <p class="status-message" id="status-message" role="status"></p>
+          </section>
+
+          <section class="output-panel panel" aria-labelledby="output-title">
+            <div class="panel-heading compact-heading">
+              <div>
+                <p class="step-label" data-i18n="useIt">USE IT</p>
+                <h2 id="output-title" data-i18n="outputTitle">Copy & paste</h2>
+              </div>
+              <button class="button button-accent" id="share-button" type="button" data-i18n="copyShare">Copy share link</button>
+            </div>
+            <div class="output-list">
+              <label class="output-field"><span data-i18n="cardUrl">Card URL</span><span><input id="output-url" readonly /><button type="button" data-copy="url" data-i18n="copy">Copy</button></span></label>
+              <label class="output-field"><span>Markdown</span><span><input id="output-markdown" readonly /><button type="button" data-copy="markdown" data-i18n="copy">Copy</button></span></label>
+              <label class="output-field"><span>HTML</span><span><input id="output-html" readonly /><button type="button" data-copy="html" data-i18n="copy">Copy</button></span></label>
+            </div>
+            <p class="privacy-note"><span aria-hidden="true">●</span> <span data-i18n="privacy">No account, tracking, or server-side storage. Your configuration stays in the URL and this browser.</span></p>
+          </section>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="site-footer shell">
+      <p><span data-i18n="madeFor">Built for expressive GitHub profiles.</span> <a href="https://github.com/Seungpyo1007/github-tech-stack-card" target="_blank" rel="noreferrer">Open source ↗</a></p>
+    </footer>
+
+    <script>
+      import '../ui/customizer.js';
+    </script>
+  </body>
+</html>

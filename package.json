@@ -6,17 +6,20 @@
   "type": "module",
   "scripts": {
     "dev": "vercel dev",
+    "dev:web": "astro dev",
+    "build": "astro build",
     "fetch:icons": "node scripts/fetch-icons.mjs",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && astro check",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "check": "pnpm lint && pnpm typecheck && pnpm test"
+    "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build"
   },
   "engines": {
     "node": ">=20"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.4",
     "@eslint/js": "^10.0.1",
     "@types/node": "^26.2.0",
     "@vercel/node": "^5.9.7",
@@ -25,6 +28,9 @@
     "fast-xml-parser": "^5.10.1",
     "globals": "^17.9.0",
     "sharp": "^0.35.3",
+    "astro": "^5.16.6",
+    "sortablejs": "^1.15.6",
+    "@types/sortablejs": "^1.15.9",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.66.0",
     "vitest": "^4.1.10"
