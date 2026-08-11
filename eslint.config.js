@@ -6,7 +6,7 @@ export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    ignores: ['coverage/**', 'dist/**', 'node_modules/**'],
+    ignores: ['.astro/**', 'coverage/**', 'dist/**', 'node_modules/**'],
   },
   {
     files: ['**/*.{js,mjs}'],

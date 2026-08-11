@@ -2,9 +2,9 @@
 
 # GitHub Tech Stack Card
 
-Dynamic, customizable SVG tech stack cards for GitHub profiles and project READMEs.
+Dynamic, customizable SVG tech stack cards for GitHub profiles and project READMEs, with a visual Astro builder.
 
-[Live card](https://github-tech-stack-card.vercel.app/api/card?username=Seungpyo1007&theme=shiny&hide_title=true&v=1) · [API options](#api-options) · [Self-hosting](#self-hosting) · [Contributing](#contributing)
+[Open the customizer](https://github-tech-stack-card.vercel.app/) · [Live card](https://github-tech-stack-card.vercel.app/api/card?username=Seungpyo1007&theme=shiny&hide_title=true&v=1) · [API options](#api-options) · [Self-hosting](#self-hosting) · [Contributing](#contributing)
 
 </div>
 
@@ -23,6 +23,9 @@ Dynamic, customizable SVG tech stack cards for GitHub profiles and project READM
 - Rows, grid, and compact layouts
 - Built-in Shiny, GitHub Dark, and light themes
 - Custom colors, icon sizes, hidden categories, and hidden technologies
+- Visual stack selection and drag-to-reorder controls
+- Shareable builder URLs with browser-local autosave
+- English and Korean builder interface
 - Accessible logo names through SVG titles and descriptions
 - Staggered logo entrance, subtle floating motion, and an animated border accent
 - CDN caching for stable GitHub README rendering
@@ -30,7 +33,9 @@ Dynamic, customizable SVG tech stack cards for GitHub profiles and project READM
 
 ## Quick start
 
-Paste the following into a GitHub profile or project README:
+The easiest option is the [visual customizer](https://github-tech-stack-card.vercel.app/). Choose and reorder technologies, adjust the card, then copy the generated URL, Markdown, or HTML.
+
+To use the default profile directly, paste the following into a GitHub profile or project README:
 
 ```md
 <p align="center">
@@ -42,9 +47,9 @@ Paste the following into a GitHub profile or project README:
 </p>
 ```
 
-The public card currently includes the registered `Seungpyo1007` profile. To
-publish another profile, add its curated stack to `src/profiles.ts` and deploy
-your own instance.
+Without a `stack` token, the public card uses the registered `Seungpyo1007`
+profile. The visual customizer creates a validated, versioned `stack` token so
+any GitHub username can publish a card without an account or server-side data.
 
 ## Layouts
 
@@ -118,16 +123,19 @@ Use `animation=false` for a fully static card:
 | Parameter | Accepted values | Default |
 | --- | --- | --- |
 | `animation` | `true`, `false`, `1`, `0`, `yes`, `no` | `true` |
-| `username` | Registered profile name | `Seungpyo1007` |
+| `username` | Registered profile name, or any GitHub username with `stack` | `Seungpyo1007` |
 | `theme` | `shiny`, `github_dark`, `light` | `shiny` |
 | `layout` | `rows`, `grid`, `compact` | `rows` |
 | `icon_size` | Integer from `24` through `48` | `34` |
 | `hide_title` | `true`, `false`, `1`, `yes` | `false` |
 | `hide` | Comma-separated category or icon IDs | None |
+| `stack` | Base64URL-encoded version 1 stack configuration | Registered profile |
+| `title` | Card title, up to 48 characters | `Tech Stack` |
 | `bg_color` | Three- or six-digit hexadecimal color | Theme value |
 | `border_color` | Three- or six-digit hexadecimal color | Theme value |
 | `title_color` | Three- or six-digit hexadecimal color | Theme value |
 | `text_color` | Three- or six-digit hexadecimal color | Theme value |
+| `tile_color` | Three- or six-digit hexadecimal icon-tile color | Theme value |
 | `v` | Arbitrary cache-busting value for GitHub Camo | None |
 
 Examples:
@@ -137,6 +145,22 @@ Examples:
 /api/card?username=Seungpyo1007&layout=compact&hide=tools,react
 /api/card?username=Seungpyo1007&icon_size=40&hide_title=true
 ```
+
+Custom stacks use the following token payload before Base64URL encoding:
+
+```json
+{
+  "v": 1,
+  "groups": [
+    { "id": "web", "items": ["typescript", "react", "css"] },
+    { "id": "tools", "items": ["git", "vercel"] }
+  ]
+}
+```
+
+Tokens are limited to 4,096 characters and may only reference bundled category
+and technology IDs. Malformed, empty, duplicate, or unknown entries return an
+SVG error card with HTTP status `400`.
 
 <details>
 <summary><strong>Available hide IDs</strong></summary>
@@ -183,15 +207,19 @@ pnpm check
 pnpm dev
 ```
 
+`pnpm dev` runs the integrated Astro and Vercel Function environment. Use
+`pnpm dev:web` when only the static builder UI is needed.
+
 Refresh the vendored icon files when their upstream sources change:
 
 ```sh
 pnpm fetch:icons
 ```
 
-The API adapter lives in `api/card.ts`; profile data and SVG rendering remain
-separate in `src/`. Tests validate query parsing, HTTP behavior, XML validity,
-layout snapshots, and real PNG rendering.
+The API adapter lives in `api/card.ts`; the Astro page, shared technology
+catalog, profile data, and SVG renderer remain separate in `src/`. Tests
+validate stack tokens, URL generation, query parsing, HTTP behavior, XML
+validity, layout snapshots, and real PNG rendering.
 
 ## Self-hosting
 
