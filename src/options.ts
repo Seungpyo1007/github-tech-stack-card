@@ -49,7 +49,16 @@ function withCustomColors(theme: CardTheme, query: CardQuery): CardTheme {
     background: parseColor(query.bg_color, theme.background),
     border: parseColor(query.border_color, theme.border),
     text: parseColor(query.text_color, theme.text),
+    tile: parseColor(query.tile_color, theme.tile),
   };
+}
+
+function parseTitle(value: QueryValue): string {
+  const title = [...(first(value) ?? 'Tech Stack')]
+    .filter((character) => character.charCodeAt(0) >= 32 && character.charCodeAt(0) !== 127)
+    .join('')
+    .trim();
+  return title ? [...title].slice(0, 48).join('') : 'Tech Stack';
 }
 
 export function parseCardOptions(query: CardQuery): CardRequestOptions {
@@ -66,8 +75,9 @@ export function parseCardOptions(query: CardQuery): CardRequestOptions {
     hideTitle: parseBoolean(query.hide_title),
     iconSize: parseInteger(query.icon_size, 34, 24, 48),
     layout,
+    stackToken: first(query.stack) ?? null,
     theme: withCustomColors(baseTheme, query),
-    title: 'Tech Stack',
+    title: parseTitle(query.title),
     username,
   };
 }

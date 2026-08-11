@@ -10,7 +10,7 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "types": ["node", "vitest/globals"]
+    "types": ["astro/client", "node", "vitest/globals"]
   },
-  "include": ["api", "src", "tests", "eslint.config.js", "vitest.config.ts"]
+  "include": [".astro/types.d.ts", "api", "src", "tests", "eslint.config.js", "vitest.config.ts"]
 }

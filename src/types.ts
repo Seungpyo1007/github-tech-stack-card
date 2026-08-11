@@ -38,5 +38,16 @@ export interface RenderOptions extends BaseRenderOptions {
 
 export interface CardRequestOptions extends RenderOptions {
   hidden: Set<string>;
+  stackToken: string | null;
   username: string;
+}
+
+export interface StackConfigGroup {
+  id: string;
+  items: string[];
+}
+
+export interface StackConfigV1 {
+  v: 1;
+  groups: StackConfigGroup[];
 }

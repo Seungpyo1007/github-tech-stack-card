@@ -31,6 +31,8 @@ describe('parseCardOptions', () => {
       icon_size: '80',
       layout: 'grid',
       text_color: ['fff'],
+      tile_color: '010203',
+      title: `  My\u0000 Stack ${'x'.repeat(60)}  `,
       title_color: '%2389c',
     });
 
@@ -44,7 +46,10 @@ describe('parseCardOptions', () => {
       background: '#AABBCC',
       border: '#123456',
       text: '#FFFFFF',
+      tile: '#010203',
     });
+    expect(options.title).toHaveLength(48);
+    expect(options.title).toMatch(/^My Stack/u);
   });
 
   it('falls back safely for invalid input', () => {
