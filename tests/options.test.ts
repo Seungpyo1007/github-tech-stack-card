@@ -6,6 +6,7 @@ describe('parseCardOptions', () => {
   it('uses the Seungpyo shiny rows preset by default', () => {
     const options = parseCardOptions({});
     expect(options).toMatchObject({
+      animated: true,
       hideTitle: false,
       iconSize: 34,
       layout: 'rows',
@@ -22,6 +23,7 @@ describe('parseCardOptions', () => {
 
   it('accepts supported layout, visibility, size, hide, and color options', () => {
     const options = parseCardOptions({
+      animation: 'false',
       bg_color: 'abc',
       border_color: '#123456',
       hide: 'tools,react,INVALID VALUE',
@@ -33,6 +35,7 @@ describe('parseCardOptions', () => {
     });
 
     expect(options.layout).toBe('grid');
+    expect(options.animated).toBe(false);
     expect(options.hideTitle).toBe(true);
     expect(options.iconSize).toBe(48);
     expect([...options.hidden]).toEqual(['tools', 'react']);

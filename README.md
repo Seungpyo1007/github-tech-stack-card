@@ -24,6 +24,7 @@ Dynamic, customizable SVG tech stack cards for GitHub profiles and project READM
 - Built-in Shiny, GitHub Dark, and light themes
 - Custom colors, icon sizes, hidden categories, and hidden technologies
 - Accessible logo names through SVG titles and descriptions
+- Staggered logo entrance, subtle floating motion, and an animated border accent
 - CDN caching for stable GitHub README rendering
 - Invalid-input filtering and SVG-safe text rendering
 
@@ -97,12 +98,26 @@ https://github-tech-stack-card.vercel.app/api/card
 
 Remove the line breaks when using this URL in Markdown.
 
+## Motion
+
+Animation is enabled by default. Categories and logos enter in sequence, icons
+then float subtly, and an accent travels around the card border. The SVG honors
+`prefers-reduced-motion` and stops all effects for users who request reduced
+motion.
+
+Use `animation=false` for a fully static card:
+
+```text
+/api/card?username=Seungpyo1007&animation=false
+```
+
 ## API options
 
 `GET /api/card`
 
 | Parameter | Accepted values | Default |
 | --- | --- | --- |
+| `animation` | `true`, `false`, `1`, `0`, `yes`, `no` | `true` |
 | `username` | Registered profile name | `Seungpyo1007` |
 | `theme` | `shiny`, `github_dark`, `light` | `shiny` |
 | `layout` | `rows`, `grid`, `compact` | `rows` |

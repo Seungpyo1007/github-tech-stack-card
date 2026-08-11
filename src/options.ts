@@ -30,6 +30,10 @@ function parseBoolean(value: QueryValue): boolean {
   return ['1', 'true', 'yes'].includes((first(value) ?? '').toLowerCase());
 }
 
+function parseAnimation(value: QueryValue): boolean {
+  return !['0', 'false', 'no', 'none'].includes((first(value) ?? '').toLowerCase());
+}
+
 function parseHidden(value: QueryValue): Set<string> {
   const entries = (first(value) ?? '')
     .split(',')
@@ -57,6 +61,7 @@ export function parseCardOptions(query: CardQuery): CardRequestOptions {
   const baseTheme = getTheme(themeName);
 
   return {
+    animated: parseAnimation(query.animation),
     hidden: parseHidden(query.hide),
     hideTitle: parseBoolean(query.hide_title),
     iconSize: parseInteger(query.icon_size, 34, 24, 48),

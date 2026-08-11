@@ -23,6 +23,7 @@ export interface CardTheme {
 }
 
 export interface BaseRenderOptions {
+  animated: boolean;
   hideTitle: boolean;
   iconSize: number;
   theme: CardTheme;
