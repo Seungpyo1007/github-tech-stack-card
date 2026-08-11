@@ -1,46 +1,159 @@
+<div align="center">
+
 # GitHub Tech Stack Card
 
-Generate a dynamic, logo-based SVG tech stack card for GitHub profiles. Cards
-are rendered on request and can be customized through URL query parameters.
+Dynamic, customizable SVG tech stack cards for GitHub profiles and project READMEs.
 
-## Usage
+[Live card](https://github-tech-stack-card.vercel.app/api/card?username=Seungpyo1007&theme=shiny&hide_title=true&v=1) · [API options](#api-options) · [Self-hosting](#self-hosting) · [Contributing](#contributing)
+
+</div>
+
+<p align="center">
+  <img
+    src="https://github-tech-stack-card.vercel.app/api/card?username=Seungpyo1007&theme=shiny&hide_title=true&v=1"
+    width="94%"
+    alt="Seungpyo1007 tech stack logos grouped by category"
+  />
+</p>
+
+## Features
+
+- SVG cards generated dynamically from a single URL
+- Locally vendored logos with no runtime icon-service dependency
+- Rows, grid, and compact layouts
+- Built-in Shiny, GitHub Dark, and light themes
+- Custom colors, icon sizes, hidden categories, and hidden technologies
+- Accessible logo names through SVG titles and descriptions
+- CDN caching for stable GitHub README rendering
+- Invalid-input filtering and SVG-safe text rendering
+
+## Quick start
+
+Paste the following into a GitHub profile or project README:
 
 ```md
-<img
-  src="https://github-tech-stack-card.vercel.app/api/card?username=Seungpyo1007&theme=shiny&hide_title=true&v=1"
-  width="94%"
-  alt="Tech stack logos grouped by category"
-/>
+<p align="center">
+  <img
+    src="https://github-tech-stack-card.vercel.app/api/card?username=Seungpyo1007&theme=shiny&hide_title=true&v=1"
+    width="94%"
+    alt="Tech stack logos grouped by category"
+  />
+</p>
 ```
 
-## API
+The public card currently includes the registered `Seungpyo1007` profile. To
+publish another profile, add its curated stack to `src/profiles.ts` and deploy
+your own instance.
+
+## Layouts
+
+Set `layout` to `rows`, `grid`, or `compact`.
+
+<details>
+<summary><strong>Rows</strong> — best for a full-width profile README</summary>
+
+<p align="center">
+  <img src="https://github-tech-stack-card.vercel.app/api/card?username=Seungpyo1007&layout=rows&hide_title=true&v=1" width="94%" alt="Rows layout preview" />
+</p>
+
+</details>
+
+<details>
+<summary><strong>Grid</strong> — category cards in two columns</summary>
+
+<p align="center">
+  <img src="https://github-tech-stack-card.vercel.app/api/card?username=Seungpyo1007&layout=grid&hide_title=true&v=1" width="94%" alt="Grid layout preview" />
+</p>
+
+</details>
+
+<details>
+<summary><strong>Compact</strong> — reduced spacing without icon tiles</summary>
+
+<p align="center">
+  <img src="https://github-tech-stack-card.vercel.app/api/card?username=Seungpyo1007&layout=compact&hide_title=true&v=1" width="94%" alt="Compact layout preview" />
+</p>
+
+</details>
+
+## Themes
+
+| Theme | Query value | Description |
+| --- | --- | --- |
+| Shiny | `theme=shiny` | Navy, pastel blue, and lavender profile theme |
+| GitHub Dark | `theme=github_dark` | Colors matched to GitHub's dark interface |
+| Light | `theme=light` | High-contrast light card |
+
+Theme colors can be overridden individually:
+
+```text
+https://github-tech-stack-card.vercel.app/api/card
+  ?username=Seungpyo1007
+  &bg_color=0F1B2A
+  &border_color=CBAACB
+  &title_color=89CFF0
+  &text_color=FFFFFF
+```
+
+Remove the line breaks when using this URL in Markdown.
+
+## API options
 
 `GET /api/card`
 
-| Parameter | Values | Default |
+| Parameter | Accepted values | Default |
 | --- | --- | --- |
 | `username` | Registered profile name | `Seungpyo1007` |
 | `theme` | `shiny`, `github_dark`, `light` | `shiny` |
 | `layout` | `rows`, `grid`, `compact` | `rows` |
-| `icon_size` | Integer from `24` to `48` | `34` |
-| `hide_title` | `true`, `false` | `false` |
+| `icon_size` | Integer from `24` through `48` | `34` |
+| `hide_title` | `true`, `false`, `1`, `yes` | `false` |
 | `hide` | Comma-separated category or icon IDs | None |
 | `bg_color` | Three- or six-digit hexadecimal color | Theme value |
 | `border_color` | Three- or six-digit hexadecimal color | Theme value |
 | `title_color` | Three- or six-digit hexadecimal color | Theme value |
 | `text_color` | Three- or six-digit hexadecimal color | Theme value |
-| `v` | Optional cache-busting value for GitHub Camo | None |
+| `v` | Arbitrary cache-busting value for GitHub Camo | None |
 
 Examples:
 
 ```text
 /api/card?username=Seungpyo1007&layout=grid
 /api/card?username=Seungpyo1007&layout=compact&hide=tools,react
-/api/card?username=Seungpyo1007&bg_color=0F1B2A&border_color=CBAACB
+/api/card?username=Seungpyo1007&icon_size=40&hide_title=true
 ```
 
-Unknown parameters and invalid customization values fall back to safe defaults.
-Unknown profile names return an SVG error card with HTTP status `404`.
+<details>
+<summary><strong>Available hide IDs</strong></summary>
+
+Categories:
+
+```text
+mobile, web, ai-ml, game-hardware, cloud-database, tools
+```
+
+Technologies:
+
+```text
+android, androidstudio, apache, arduino, autodesk, aws, blender,
+cplusplus, csharp, css, dart, dotnet, expo, express, firebase, flask,
+flutter, git, googlecloud, html5, huggingface, intellijidea, ios, java,
+javascript, jupyter, kotlin, mdx, nextjs, nix, oracle, postgresql,
+python, pytorch, react, rider, sass, swift, typescript, unity, vercel,
+xcode
+```
+
+</details>
+
+Invalid customization values fall back to safe defaults. Unknown profiles
+return an SVG error card with HTTP status `404`.
+
+## Caching
+
+Cards are cached by the browser for five minutes and by the deployment CDN for
+six hours. GitHub additionally proxies remote README images through Camo. When
+a card has changed but GitHub still shows an older copy, increment the `v`
+parameter in the image URL.
 
 ## Development
 
@@ -61,21 +174,55 @@ Refresh the vendored icon files when their upstream sources change:
 pnpm fetch:icons
 ```
 
-The icon assets are stored in the repository and are not fetched while serving
-cards. See [`assets/icons/NOTICE.md`](assets/icons/NOTICE.md) for attribution.
+The API adapter lives in `api/card.ts`; profile data and SVG rendering remain
+separate in `src/`. Tests validate query parsing, HTTP behavior, XML validity,
+layout snapshots, and real PNG rendering.
 
-## Deployment
+## Self-hosting
 
-Deploy as a Vercel project from this repository or with the Vercel CLI:
+### Vercel
+
+Vercel is the maintained deployment adapter and the simplest supported path:
 
 ```sh
 pnpm dlx vercel
 pnpm dlx vercel --prod
 ```
 
-Responses use browser and CDN cache headers. Add or increment the `v` query
-parameter in a GitHub README when an immediate Camo refresh is needed.
+No secrets or GitHub token are required because v1 uses curated, versioned
+profile data rather than fetching GitHub statistics.
+
+### Other platforms
+
+Vercel is not required by the SVG renderer. The functions in `src/` use standard
+Node.js APIs and can be wrapped by another Node or serverless HTTP adapter. A
+non-Vercel adapter must:
+
+1. Pass query parameters to `parseCardOptions`.
+2. Select and filter a registered profile.
+3. Return `renderCard` output as `image/svg+xml`.
+4. Include `assets/icons/**` with the deployed function.
+5. Configure equivalent CDN caching headers.
+
+Cloudflare Workers requires an asset-bundling adapter because its runtime does
+not expose the Node.js filesystem used by the current icon loader.
+
+## Contributing
+
+1. Branch from `develop` using `feature/<name>`.
+2. Use Conventional Commits.
+3. Run `pnpm check` before opening a pull request.
+4. Target `develop`; releases are merged into `main` through Git Flow.
+
+Logo updates must retain source attribution in
+[`assets/icons/NOTICE.md`](assets/icons/NOTICE.md).
+
+## Acknowledgements
+
+- Inspired by [GitHub Readme Stats](https://github.com/anuraghazra/github-readme-stats)
+- Icon-card usage patterns inspired by [Skill Icons](https://github.com/tandpfun/skill-icons)
+- Logos provided by [Simple Icons](https://simpleicons.org/) and [Devicon](https://devicon.dev/)
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+Licensed under the [MIT License](LICENSE).
