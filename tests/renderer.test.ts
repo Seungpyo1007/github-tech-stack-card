@@ -22,7 +22,7 @@ describe('SVG card renderer', () => {
   const profile = getProfile('Seungpyo1007')!;
 
   it.each<CardLayout>(['rows', 'grid', 'compact'])('renders a valid %s card as PNG', async (layout) => {
-    const options = parseCardOptions({ hide_title: 'true', layout });
+    const options = parseCardOptions({ animation: 'false', hide_title: 'true', layout });
     const svg = renderCard(profile, options);
 
     expect(XMLValidator.validate(svg)).toBe(true);
@@ -31,6 +31,17 @@ describe('SVG card renderer', () => {
     expect(info.width).toBe(960);
     expect(info.height).toBeGreaterThan(300);
     expect(svgSummary(svg, layout)).toMatchSnapshot();
+  });
+
+  it('adds motion effects by default and supports disabling them', () => {
+    const animated = renderCard(profile, parseCardOptions({ hide_title: 'true' }));
+    expect(animated).toContain('@keyframes iconIn');
+    expect(animated).toContain('class="border-shimmer"');
+    expect(animated).toContain('prefers-reduced-motion');
+
+    const staticCard = renderCard(profile, parseCardOptions({ animation: 'false', hide_title: 'true' }));
+    expect(staticCard).not.toContain('@keyframes');
+    expect(staticCard).not.toContain('tech-icon-entry');
   });
 
   it('escapes user-visible title content', () => {
