@@ -2,6 +2,14 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.0.1] - 2026-08-11
+
+### Documentation
+
+- Added live layout previews and a complete API option reference
+- Clarified caching, Vercel deployment, and alternative hosting requirements
+- Added development, contribution, and project acknowledgement guidance
+
 ## [1.0.0] - 2026-08-11
 
 ### Added
