@@ -2,6 +2,21 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.2.0] - 2026-08-11
+
+### Added
+
+- Astro-powered visual card customizer in English and Korean
+- Live SVG preview, shareable builder links, and browser-local autosave
+- Technology selection and drag or keyboard reordering
+- Versioned custom stack tokens for unregistered GitHub usernames
+- Custom card titles and icon-tile colors
+
+### Changed
+
+- Moved technology definitions into a shared catalog used by profiles, the API, and the builder
+- Expanded validation to include Astro type checking and production builds
+
 ## [1.1.0] - 2026-08-11
 
 ### Added
