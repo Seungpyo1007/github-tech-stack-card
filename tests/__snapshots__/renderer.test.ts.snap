@@ -1,0 +1,31 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SVG card renderer > renders a valid compact card as PNG 1`] = `
+{
+  "height": 378,
+  "layout": "compact",
+  "nestedIcons": 43,
+  "separators": 5,
+  "width": 960,
+}
+`;
+
+exports[`SVG card renderer > renders a valid grid card as PNG 1`] = `
+{
+  "height": 572,
+  "layout": "grid",
+  "nestedIcons": 43,
+  "separators": 0,
+  "width": 960,
+}
+`;
+
+exports[`SVG card renderer > renders a valid rows card as PNG 1`] = `
+{
+  "height": 536,
+  "layout": "rows",
+  "nestedIcons": 43,
+  "separators": 5,
+  "width": 960,
+}
+`;
