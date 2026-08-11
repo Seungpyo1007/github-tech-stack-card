@@ -2,6 +2,15 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.1.0] - 2026-08-11
+
+### Added
+
+- Staggered category and logo entrance animations
+- Continuous subtle icon floating and animated border accent
+- `animation=false` option for static cards
+- Automatic `prefers-reduced-motion` support
+
 ## [1.0.1] - 2026-08-11
 
 ### Documentation
