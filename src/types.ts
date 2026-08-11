@@ -28,3 +28,14 @@ export interface BaseRenderOptions {
   theme: CardTheme;
   title: string;
 }
+
+export type CardLayout = 'compact' | 'grid' | 'rows';
+
+export interface RenderOptions extends BaseRenderOptions {
+  layout: CardLayout;
+}
+
+export interface CardRequestOptions extends RenderOptions {
+  hidden: Set<string>;
+  username: string;
+}
