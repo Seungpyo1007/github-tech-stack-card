@@ -1,0 +1,8 @@
+{
+  "functions": {
+    "api/card.ts": {
+      "includeFiles": "assets/icons/**",
+      "maxDuration": 10
+    }
+  }
+}
