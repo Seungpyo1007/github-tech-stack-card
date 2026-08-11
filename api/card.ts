@@ -4,6 +4,7 @@ import { parseCardOptions } from '../src/options.js';
 import { filterProfile } from '../src/profile-filter.js';
 import { getProfile } from '../src/profiles.js';
 import { renderCard, renderErrorCard } from '../src/render/card.js';
+import { decodeStackConfig } from '../src/stack-config.js';
 
 const cacheHeaders = {
   'Cache-Control': 'public, max-age=300',
@@ -31,7 +32,17 @@ export default function handler(request: VercelRequest, response: VercelResponse
     return;
   }
 
-  const profile = getProfile(options.username);
+  let profile;
+  if (options.stackToken) {
+    const decoded = decodeStackConfig(options.stackToken, options.username);
+    if (!decoded.ok) {
+      response.status(400).send(renderErrorCard(decoded.error, options.theme));
+      return;
+    }
+    profile = decoded.profile;
+  } else {
+    profile = getProfile(options.username);
+  }
   if (!profile) {
     response.status(404).send(renderErrorCard(`Unknown profile: ${options.username}`, options.theme));
     return;

@@ -2,6 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { describe, expect, it } from 'vitest';
 
 import handler from '../api/card.js';
+import { encodeStackConfig } from '../src/stack-config.js';
 
 interface ResponseState {
   body: string;
@@ -56,5 +57,24 @@ describe('card API', () => {
     handler(request('POST'), response);
     expect(state.statusCode).toBe(405);
     expect(state.headers.Allow).toBe('GET');
+  });
+
+  it('renders a custom ordered stack for an unregistered username', () => {
+    const stack = encodeStackConfig({ v: 1, groups: [{ id: 'web', items: ['react', 'typescript'] }] });
+    const { response, state } = mockResponse();
+    handler(request('GET', { stack, tile_color: '010203', title: 'My Stack', username: 'octocat' }), response);
+
+    expect(state.statusCode).toBe(200);
+    expect(state.body).toContain('My Stack');
+    expect(state.body).toContain('for octocat');
+    expect(state.body).toContain('fill="#010203"');
+    expect(state.body.indexOf('<title>React</title>')).toBeLessThan(state.body.indexOf('<title>TypeScript</title>'));
+  });
+
+  it('rejects invalid custom stack tokens', () => {
+    const { response, state } = mockResponse();
+    handler(request('GET', { stack: 'invalid', username: 'octocat' }), response);
+    expect(state.statusCode).toBe(400);
+    expect(state.body).toContain('Invalid stack configuration');
   });
 });
