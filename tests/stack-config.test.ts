@@ -30,4 +30,12 @@ describe('stack configuration tokens', () => {
     expect(() => encodeStackConfig({ v: 1, groups: [{ id: 'web', items: ['unknown'] }] })).toThrow();
     expect(decodeStackConfig('a'.repeat(MAX_STACK_TOKEN_LENGTH + 1), 'octocat').ok).toBe(false);
   });
+
+  it('accepts any bundled Simple Icon in any category', () => {
+    const token = encodeStackConfig({ v: 1, groups: [{ id: 'tools', items: ['astro', 'githubactions', 'cloudflare'] }] });
+    const decoded = decodeStackConfig(token, 'octocat');
+    expect(decoded.ok).toBe(true);
+    if (!decoded.ok) return;
+    expect(decoded.profile.groups[0]?.items.map((item) => item.name)).toEqual(['Astro', 'GitHub Actions', 'Cloudflare']);
+  });
 });
