@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="./public/favicon.svg" width="96" alt="GitHub Tech Stack Card logo" />
+
 # GitHub Tech Stack Card
 
 Dynamic, customizable SVG tech stack cards for GitHub profiles and project READMEs, with a visual Astro builder.
