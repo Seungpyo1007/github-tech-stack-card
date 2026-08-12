@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.3.1] - 2026-08-12
+
+### Changed
+
+- Added a staggered fade and slide transition when switching between English and Korean
+- Added an animated language-selection indicator with reduced-motion support
+
 ## [1.3.0] - 2026-08-12
 
 ### Added
