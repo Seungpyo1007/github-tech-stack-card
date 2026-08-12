@@ -7,10 +7,6 @@ settings:
 importers:
 
   .:
-    dependencies:
-      simple-icons:
-        specifier: ^16.28.0
-        version: 16.28.0
     devDependencies:
       '@astrojs/check':
         specifier: ^0.9.4
@@ -45,6 +41,9 @@ importers:
       sharp:
         specifier: ^0.35.3
         version: 0.35.3(@types/node@26.2.0)
+      simple-icons:
+        specifier: ^16.28.0
+        version: 16.28.0
       sortablejs:
         specifier: ^1.15.6
         version: 1.15.7

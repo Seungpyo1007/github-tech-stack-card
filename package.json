@@ -31,12 +31,10 @@
     "fast-xml-parser": "^5.10.1",
     "globals": "^17.9.0",
     "sharp": "^0.35.3",
+    "simple-icons": "^16.28.0",
     "sortablejs": "^1.15.6",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.66.0",
     "vitest": "^4.1.10"
-  },
-  "dependencies": {
-    "simple-icons": "^16.28.0"
   }
 }
