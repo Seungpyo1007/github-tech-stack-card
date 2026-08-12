@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.3.2] - 2026-08-12
+
+### Changed
+
+- Replaced the text-based header badge with an animated stacked-card brand mark
+- Added a matching browser favicon
+
 ## [1.3.1] - 2026-08-12
 
 ### Changed
