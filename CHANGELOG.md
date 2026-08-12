@@ -2,6 +2,21 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.3.0] - 2026-08-12
+
+### Added
+
+- Searchable technology library containing 3,453 bundled Simple Icons
+- Per-category add workflow with multi-add and instant removal
+- Cached internal icon endpoint for builder previews
+- Page entrance, ambient background, marquee, modal, result, and interaction motion
+
+### Changed
+
+- Technology groups now show focused selections instead of a fixed checklist
+- Custom stack validation accepts any bundled icon in any existing category
+- Refined the visual hierarchy, responsive library, panel depth, and live-preview feedback
+
 ## [1.2.0] - 2026-08-11
 
 ### Added
