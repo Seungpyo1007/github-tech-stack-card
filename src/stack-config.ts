@@ -1,4 +1,5 @@
 import { techCatalog } from './catalog.js';
+import { simpleIconById } from './simple-icons.js';
 import type { CardProfile, StackConfigV1, TechGroup } from './types.js';
 
 export const MAX_STACK_TOKEN_LENGTH = 4096;
@@ -35,7 +36,7 @@ function validateConfig(value: unknown): { config: StackConfigV1; groups: TechGr
   for (const requestedGroup of candidate.groups) {
     if (!requestedGroup || typeof requestedGroup.id !== 'string' || !Array.isArray(requestedGroup.items)) return null;
     const catalogGroup = catalogById.get(requestedGroup.id);
-    if (!catalogGroup || seenGroups.has(requestedGroup.id) || requestedGroup.items.length === 0 || requestedGroup.items.length > catalogGroup.items.length) return null;
+    if (!catalogGroup || seenGroups.has(requestedGroup.id) || requestedGroup.items.length === 0 || requestedGroup.items.length > 100) return null;
 
     const catalogItems = new Map(catalogGroup.items.map((item) => [item.id, item]));
     const seenItems = new Set<string>();
@@ -43,7 +44,7 @@ function validateConfig(value: unknown): { config: StackConfigV1; groups: TechGr
     const itemIds: string[] = [];
     for (const itemId of requestedGroup.items) {
       if (typeof itemId !== 'string' || seenItems.has(itemId)) return null;
-      const item = catalogItems.get(itemId);
+      const item = catalogItems.get(itemId) ?? simpleIconById.get(itemId);
       if (!item) return null;
       seenItems.add(itemId);
       itemIds.push(itemId);
@@ -61,7 +62,9 @@ function validateConfig(value: unknown): { config: StackConfigV1; groups: TechGr
 export function encodeStackConfig(config: StackConfigV1): string {
   const validated = validateConfig(config);
   if (!validated) throw new Error('Invalid stack configuration');
-  return toBase64Url(JSON.stringify(validated.config));
+  const token = toBase64Url(JSON.stringify(validated.config));
+  if (token.length > MAX_STACK_TOKEN_LENGTH) throw new Error('Stack configuration is too large');
+  return token;
 }
 
 export function decodeStackConfig(token: string, username: string): StackDecodeResult {

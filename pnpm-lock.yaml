@@ -41,6 +41,9 @@ importers:
       sharp:
         specifier: ^0.35.3
         version: 0.35.3(@types/node@26.2.0)
+      simple-icons:
+        specifier: ^16.28.0
+        version: 16.28.0
       sortablejs:
         specifier: ^1.15.6
         version: 1.15.7
@@ -2838,6 +2841,10 @@ packages:
   signal-exit@4.0.2:
     resolution: {integrity: sha512-MY2/qGx4enyjprQnFaZsHib3Yadh3IXyV2C321GY0pjGfVBu4un0uDJkwgdxqO+Rdx8JMT8IfJIRwbYVz3Ob3Q==}
     engines: {node: '>=14'}
+
+  simple-icons@16.28.0:
+    resolution: {integrity: sha512-sQPR5AtK/ijRjou7zw7mlLp08oB6FH7i0lOy5XJ2zp9mJs/yejgiOn7KvQoe2q4YJIx6VmgUSW5AOefebPt5kg==}
+    engines: {node: '>=0.12.18'}
 
   sisteransi@1.0.5:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
@@ -6381,6 +6388,8 @@ snapshots:
 
   signal-exit@4.0.2: {}
 
+  simple-icons@16.28.0: {}
+
   sisteransi@1.0.5: {}
 
   smol-toml@1.5.2: {}
@@ -6500,7 +6509,7 @@ snapshots:
 
   tsx@4.21.0:
     dependencies:
-      esbuild: 0.27.0
+      esbuild: 0.27.7
       get-tsconfig: 4.14.1
     optionalDependencies:
       fsevents: 2.3.3

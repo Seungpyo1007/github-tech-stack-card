@@ -26,6 +26,7 @@ Dynamic, customizable SVG tech stack cards for GitHub profiles and project READM
 - Visual stack selection and drag-to-reorder controls
 - Shareable builder URLs with browser-local autosave
 - English and Korean builder interface
+- Searchable library of 3,453 bundled brand and technology logos
 - Accessible logo names through SVG titles and descriptions
 - Staggered logo entrance, subtle floating motion, and an animated border accent
 - CDN caching for stable GitHub README rendering
@@ -34,6 +35,10 @@ Dynamic, customizable SVG tech stack cards for GitHub profiles and project READM
 ## Quick start
 
 The easiest option is the [visual customizer](https://github-tech-stack-card.vercel.app/). Choose and reorder technologies, adjust the card, then copy the generated URL, Markdown, or HTML.
+
+Use **Add technology** in any category to search the complete bundled Simple
+Icons catalog. Search results can be added or removed without closing the
+library, and every selected logo remains encoded in the shareable URL.
 
 To use the default profile directly, paste the following into a GitHub profile or project README:
 
@@ -137,6 +142,10 @@ Use `animation=false` for a fully static card:
 | `text_color` | Three- or six-digit hexadecimal color | Theme value |
 | `tile_color` | Three- or six-digit hexadecimal icon-tile color | Theme value |
 | `v` | Arbitrary cache-busting value for GitHub Camo | None |
+
+`GET /api/icon?id=<slug>` serves the bundled SVG for the customizer with a
+seven-day CDN cache. Only IDs in the generated catalog or the legacy profile
+set are accepted.
 
 Examples:
 
