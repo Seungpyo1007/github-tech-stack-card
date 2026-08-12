@@ -65,11 +65,12 @@ function iconMotion(enabled: boolean, index: number): { close: string; open: str
   };
 }
 
-function renderIcon(id: string, name: string, x: number, y: number, size: number, tile: string, border: string, animated: boolean, motionIndex: number): string {
+function renderIcon(id: string, name: string, x: number, y: number, size: number, tile: string, border: string, foreground: string, animated: boolean, motionIndex: number): string {
   const icon = loadIcon(id);
   const padding = Math.max(8, Math.round(size * 0.28));
   const tileSize = size + padding * 2;
-  const fillAttribute = icon.fill ? ` fill="${escapeXml(icon.fill)}"` : '';
+  const fill = icon.monochrome && icon.fill === '#000000' ? foreground : icon.fill;
+  const fillAttribute = fill ? ` fill="${escapeXml(fill)}"` : '';
   const motion = iconMotion(animated, motionIndex);
 
   return `
@@ -80,9 +81,10 @@ function renderIcon(id: string, name: string, x: number, y: number, size: number
     ${motion.close}`;
 }
 
-function renderBareIcon(id: string, name: string, x: number, y: number, size: number, animated: boolean, motionIndex: number): string {
+function renderBareIcon(id: string, name: string, x: number, y: number, size: number, foreground: string, animated: boolean, motionIndex: number): string {
   const icon = loadIcon(id);
-  const fillAttribute = icon.fill ? ` fill="${escapeXml(icon.fill)}"` : '';
+  const fill = icon.monochrome && icon.fill === '#000000' ? foreground : icon.fill;
+  const fillAttribute = fill ? ` fill="${escapeXml(fill)}"` : '';
   const motion = iconMotion(animated, motionIndex);
   return `
     ${motion.open}
@@ -139,7 +141,7 @@ export function renderRowsCard(profile: CardProfile, options: BaseRenderOptions)
       const line = Math.floor(itemIndex / columns);
       const x = HORIZONTAL_PADDING + LABEL_WIDTH + column * cellWidth;
       const y = top + 10 + line * (tileSize + 12);
-      parts.push(renderIcon(item.id, item.name, x, y, options.iconSize, options.theme.tile, options.theme.border, options.animated, groupIndex * 16 + itemIndex));
+      parts.push(renderIcon(item.id, item.name, x, y, options.iconSize, options.theme.tile, options.theme.border, options.theme.text, options.animated, groupIndex * 16 + itemIndex));
     });
 
     top += rowHeight;
@@ -184,7 +186,7 @@ function renderCompactCard(profile: CardProfile, options: BaseRenderOptions): st
       const line = Math.floor(itemIndex / columns);
       const x = HORIZONTAL_PADDING + labelWidth + column * cellWidth;
       const y = top + 12 + line * (iconSize + 14);
-      parts.push(renderBareIcon(item.id, item.name, x, y, iconSize, options.animated, groupIndex * 16 + itemIndex));
+      parts.push(renderBareIcon(item.id, item.name, x, y, iconSize, options.theme.text, options.animated, groupIndex * 16 + itemIndex));
     });
     top += rowHeight;
   });
@@ -236,7 +238,7 @@ function renderGridCard(profile: CardProfile, options: BaseRenderOptions): strin
       const iconLine = Math.floor(itemIndex / columns);
       const iconX = x + 14 + iconColumn * cellWidth;
       const iconY = pairTop + 46 + iconLine * (tileSize + 12);
-      parts.push(renderIcon(item.id, item.name, iconX, iconY, options.iconSize, options.theme.background, options.theme.border, options.animated, groupIndex * 16 + itemIndex));
+      parts.push(renderIcon(item.id, item.name, iconX, iconY, options.iconSize, options.theme.background, options.theme.border, options.theme.text, options.animated, groupIndex * 16 + itemIndex));
     });
   });
 

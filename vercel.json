@@ -1,7 +1,11 @@
 {
   "functions": {
     "api/card.ts": {
-      "includeFiles": "assets/icons/**",
+      "includeFiles": "{assets/icons/**,node_modules/simple-icons/icons/**}",
+      "maxDuration": 10
+    },
+    "api/icon.ts": {
+      "includeFiles": "{assets/icons/**,node_modules/simple-icons/icons/**}",
       "maxDuration": 10
     }
   }
