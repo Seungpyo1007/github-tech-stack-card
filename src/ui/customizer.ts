@@ -202,6 +202,7 @@ let state = initial.state;
 const invalidConfig = initial.invalidConfig;
 let previewTimer: ReturnType<typeof setTimeout> | undefined;
 let statusTimer: ReturnType<typeof setTimeout> | undefined;
+let languageTransitionInProgress = false;
 let sortables: Sortable[] = [];
 let libraryTargetGroup = 'web';
 let libraryReturnFocus: HTMLElement | null = null;
@@ -244,6 +245,7 @@ const librarySearch = element<HTMLInputElement>('#library-search');
 const libraryResults = element<HTMLDivElement>('#library-results');
 const librarySummary = element<HTMLElement>('#library-summary');
 const libraryTarget = element<HTMLElement>('#library-target');
+const languageSwitch = element<HTMLElement>('.language-switch');
 
 function t(key: TranslationKey): string {
   return copy[language][key];
@@ -263,6 +265,7 @@ function setStatus(message: string, kind: 'error' | 'success' | 'neutral' = 'neu
 
 function applyLanguage(): void {
   document.documentElement.lang = language;
+  languageSwitch.dataset.activeLanguage = language;
   document.querySelectorAll<HTMLElement>('[data-i18n]').forEach((node) => {
     const key = node.dataset.i18n as TranslationKey;
     if (copy[language][key]) node.textContent = t(key);
@@ -277,6 +280,54 @@ function applyLanguage(): void {
   writeStorage(LANGUAGE_KEY, language);
   renderStackGroups();
   if (!libraryBackdrop.hidden) renderLibraryResults();
+}
+
+function languageMotionTargets(): HTMLElement[] {
+  return [...document.querySelectorAll<HTMLElement>('[data-i18n], [data-i18n-placeholder], .add-tech-button')]
+    .filter((node) => node.getClientRects().length > 0);
+}
+
+async function finishAnimations(animations: Animation[]): Promise<void> {
+  await Promise.allSettled(animations.map((animation) => animation.finished));
+}
+
+async function switchLanguage(nextLanguage: Language): Promise<void> {
+  if (nextLanguage === language || languageTransitionInProgress) return;
+
+  languageTransitionInProgress = true;
+  languageSwitch.classList.add('is-switching');
+  languageSwitch.querySelectorAll<HTMLButtonElement>('button').forEach((button) => {
+    button.setAttribute('aria-disabled', 'true');
+  });
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const outgoing = reduceMotion ? [] : languageMotionTargets().map((node) => node.animate([
+    { opacity: 1, transform: 'translateY(0)', filter: 'blur(0)' },
+    { opacity: 0, transform: 'translateY(-5px)', filter: 'blur(2px)' },
+  ], { duration: 125, easing: 'cubic-bezier(.4,0,1,1)', fill: 'both' }));
+
+  await finishAnimations(outgoing);
+  language = nextLanguage;
+  applyLanguage();
+  persistAndRenderPreview();
+
+  const incoming = reduceMotion ? [] : languageMotionTargets().map((node) => {
+    const top = node.getBoundingClientRect().top;
+    const delay = Math.max(0, Math.min(110, (top / window.innerHeight) * 90));
+    return node.animate([
+      { opacity: 0, transform: 'translateY(7px)', filter: 'blur(3px)' },
+      { opacity: 1, transform: 'translateY(0)', filter: 'blur(0)' },
+    ], { duration: 360, delay, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'both' });
+  });
+
+  outgoing.forEach((animation) => animation.cancel());
+  await finishAnimations(incoming);
+  incoming.forEach((animation) => animation.cancel());
+  languageSwitch.classList.remove('is-switching');
+  languageSwitch.querySelectorAll<HTMLButtonElement>('button').forEach((button) => {
+    button.removeAttribute('aria-disabled');
+  });
+  languageTransitionInProgress = false;
 }
 
 function cardParams(): URLSearchParams {
@@ -705,9 +756,7 @@ document.querySelectorAll<HTMLButtonElement>('[data-layout]').forEach((button) =
   });
 });
 document.querySelectorAll<HTMLButtonElement>('[data-language]').forEach((button) => button.addEventListener('click', () => {
-  language = button.dataset.language === 'ko' ? 'ko' : 'en';
-  applyLanguage();
-  persistAndRenderPreview();
+  void switchLanguage(button.dataset.language === 'ko' ? 'ko' : 'en');
 }));
 document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((button) => button.addEventListener('click', () => {
   const target = button.dataset.copy;
