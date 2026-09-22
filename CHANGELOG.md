@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented in this file.
 
+## [1.3.3] - 2026-09-22
+
+### Changed
+
+- Replaced the CSS-drawn header mark with the project favicon so the site logo matches the browser icon
+- Added CI, license and live demo badges to the README
+
 ## [1.3.2] - 2026-08-12
 
 ### Changed

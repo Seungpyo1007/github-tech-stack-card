@@ -6,6 +6,10 @@
 
 Dynamic, customizable SVG tech stack cards for GitHub profiles and project READMEs, with a visual Astro builder.
 
+<a href="https://github.com/Seungpyo1007/github-tech-stack-card/actions/workflows/ci.yml"><img src="https://github.com/Seungpyo1007/github-tech-stack-card/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+<a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-89CFF0" alt="MIT License" /></a>
+<a href="https://github-tech-stack-card.vercel.app"><img src="https://img.shields.io/badge/demo-live-CBAACB" alt="Live demo" /></a>
+
 [Open the customizer](https://github-tech-stack-card.vercel.app/) · [Live card](https://github-tech-stack-card.vercel.app/api/card?username=Seungpyo1007&theme=shiny&hide_title=true&v=1) · [API options](#api-options) · [Self-hosting](#self-hosting) · [Contributing](#contributing)
 
 </div>
